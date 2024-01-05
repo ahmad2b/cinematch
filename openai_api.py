@@ -31,7 +31,7 @@ class AsyncManager:
 
 
 class MessageItem:
-    def __init__(self, role: str, content: Union[str | Any]):
+    def __init__(self, role: str, content: Union[str, Any]):
         self.role: str = role
         self.content: str | Any = content
 

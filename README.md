@@ -33,7 +33,7 @@ pip install -r requirements.txt
 To start the application, run the following command in your terminal:
 
 ```sh
-streamlit run 1_Home.py
+streamlit run Home.py
 ```
 
 Then, open your web browser and navigate to `http://localhost:8501` to start using Cinematch.

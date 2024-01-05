@@ -5,7 +5,7 @@ import json
 import time
 from openai import OpenAI
 
-from typing import List, Any
+from typing import List, Any, Union
 
 from openai.types.beta import Assistant
 from openai.types.beta.thread import Thread
@@ -31,7 +31,7 @@ class AsyncManager:
 
 
 class MessageItem:
-    def __init__(self, role: str, content: str | Any):
+    def __init__(self, role: str, content: Union[str | Any]):
         self.role: str = role
         self.content: str | Any = content
 

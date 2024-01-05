@@ -33,41 +33,60 @@ sidebar = st.sidebar
 # Sidebar for user login
 with sidebar:
     if st.session_state["username"] != "":
-        st.header(f"Welcome back, {st.session_state['username']}! :wave:")
+        st.subheader(f"Welcome, {st.session_state['username']}! :wave:")
         if st.button("Logout"):
             st.session_state["username"] = ""
-            st.success("Logged out successfully! :partying_face:")
 
-        st.header("Your Watch-list :popcorn:")
+        st.header("Your Watch-list 🎬")
         wishlist = movie_operations.get_movies_for_user(st.session_state["user"].id)
         for movie in wishlist:
             st.markdown(f"**{movie.title}**")
             st.image(f"https://image.tmdb.org/t/p/w500{movie.image}", width=80)
     else:
-        if st.button(":key: Join Cinematch!"):
-            st.session_state["show_login_form"] = True
+        if "show_form" not in st.session_state:
+            st.session_state["show_form"] = "login"
 
-        if (
-            "show_login_form" in st.session_state
-            and st.session_state["show_login_form"]
-        ):
-            if "username" in st.session_state and st.session_state["username"] != "":
-                st.header(f"Welcome, {st.session_state['username']}! :wave:")
-            else:
-                with st.form(key="login_form"):
-                    username = st.text_input("👤 Username")
-                    password = st.text_input("🔒 Password", type="password")
-                    submit_button = st.form_submit_button("🚀 Login")
+        if st.button("Join Cinematch! 🎉"):
+            st.session_state["show_form"] = "signup"
 
-                    if submit_button:
-                        response = user_operations.authenticate_user(username, password)
-                        if response["status"] == "success":
-                            st.session_state["username"] = username
-                            st.session_state["user"] = response["user"]
-                            st.session_state["show_login_form"] = False
-                            st.success(f"{username} Logged in successfully!")
-                        else:
-                            st.error(response["message"])
+        if st.button("Already a member? Login 🔑"):
+            st.session_state["show_form"] = "login"
+
+        if st.session_state["show_form"] == "login":
+            with st.form(key="login_form"):
+                st.subheader("Login")
+                st.write("Please enter your username and password to login.")
+                username = st.text_input("👤 Username")
+                password = st.text_input("🔒 Password", type="password")
+                submit_button = st.form_submit_button("🚀 Login")
+
+                if submit_button:
+                    # Authenticate user
+                    response = user_operations.authenticate_user(username, password)
+                    if response["status"] == "success":
+                        st.session_state["username"] = username
+                        st.session_state["user"] = response["user"]
+                        st.success(f"{username} Logged in successfully! 🎉")
+                    else:
+                        st.error(response["message"])
+        elif st.session_state["show_form"] == "signup":
+            with st.form(key="signup_form"):
+                st.subheader("Sign Up")
+                st.write("Please fill in the following details to create an account.")
+                username = st.text_input("👤 Username")
+                password = st.text_input("🔒 Password", type="password")
+                submit_button = st.form_submit_button(":door: Sign Up")
+
+                if submit_button:
+                    # Create user
+                    response = user_operations.register_new_user(username, password)
+                    if response["status"] == "success":
+                        st.session_state["username"] = username
+                        st.session_state["user"] = response["user"]
+                        st.success(f"{username} Registerd successfully! 🎉")
+                    else:
+                        st.error(response["message"])
+
 
 # User input for movie preferences
 st.header("Help us help you find your next movie :tv:")

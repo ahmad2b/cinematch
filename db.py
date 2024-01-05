@@ -77,7 +77,7 @@ class UserOperations:
         """
         session = self.Session()
 
-        existing_user = session.query(User).filter_by(username=username).first()
+        existing_user = session.query(UserEntity).filter_by(username=username).first()
 
         # Check if the user already exists
         if existing_user:
@@ -93,7 +93,7 @@ class UserOperations:
             session.close()
             return {
                 "status": "success",
-                "message": "User created successfully",
+                "message": "User created successfully. Please login to continue.",
                 "user": user,
             }
         except IntegrityError:

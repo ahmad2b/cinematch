@@ -1,0 +1,9 @@
+streamlit
+requests
+aiohttp
+asyncio
+pydantic
+sqlalchemy
+werkzeug
+openai
+pytest

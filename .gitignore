@@ -1,0 +1,17 @@
+# .gitignore
+
+# Ignore Python build artifacts
+__pycache__/
+*.py[cod]
+*.pyd
+*.pyo
+*.so
+*.egg
+*.egg-info/
+dist/
+build/
+
+# Ignore secrets
+.secrets/
+.streamlit/secrets.toml
+secrets.toml

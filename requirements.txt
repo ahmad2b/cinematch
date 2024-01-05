@@ -7,3 +7,4 @@ sqlalchemy
 werkzeug
 openai
 pytest
+psycopg2

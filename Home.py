@@ -40,8 +40,14 @@ with sidebar:
         st.header("Your Watch-list 🎬")
         wishlist = movie_operations.get_movies_for_user(st.session_state["user"].id)
         for movie in wishlist:
-            st.markdown(f"**{movie.title}**")
+            st.markdown("---")
             st.image(f"https://image.tmdb.org/t/p/w500{movie.image}", width=80)
+            st.markdown(f"**{movie.title}**")
+            if st.button("Remove ❌", key=f"delete_{movie.id}"):
+                movie_operations.delete_movie_by_id(
+                    st.session_state["user"].id, movie.id
+                )
+                st.success(f"**{movie.title}** has been removed from your watch-list.")
     else:
         if "show_form" not in st.session_state:
             st.session_state["show_form"] = "login"
@@ -112,19 +118,19 @@ if st.button("Find my movie match! :heart:"):
     # get keywords and query from the openai bot
     message = f"{[selected_movie_genres]} + {[user_movie_preference]} + {[str(movie_rating_range[0]), str(movie_rating_range[1])]}"
     query = openai_bot.send_message(message)
-    print("query: ", query)
+    # print("query: ", query)
 
     if openai_bot.isCompleted():
-        print("completed: ")
+        # print("completed: ")
         _response: MessageItem = openai_bot.get_lastest_response()
-        print("response: ", _response.content)
+        # print("response: ", _response.content)
         content = _response.content.strip("`").replace("json", "").strip()
 
         params = json.loads(content)
-        st.markdown(params)
+        # st.markdown(params)
 
         movies = movie_database.discover_movies_with_params(params)
-        print("movies: ", movies)
+        # print("movies: ", movies)
 
         for movie in movies.results:
             st.markdown(f"<div >", unsafe_allow_html=True)
@@ -146,6 +152,20 @@ if st.button("Find my movie match! :heart:"):
                 unsafe_allow_html=True,
             )
             st.write(movie.release_date)
+            if st.button(
+                "Add to my Watch-list! :popcorn:",
+                key=f"watchlist_button_{movie.id}",
+            ):
+                if st.session_state["user"] is not None:
+                    movie_operations.add_movie_for_user(
+                        st.session_state["user"].id, movie.title, movie.poster_path
+                    )
+                    st.success(
+                        f"**{movie.title}** is on your watch-list! :partying_face:"
+                    )
+                    st.balloons()
+                else:
+                    st.error("You must be logged in to add movies to your watchlist.")
 
 
 st.markdown("---")

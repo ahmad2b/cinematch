@@ -164,7 +164,7 @@ class MovieOperations:
         session.close()
         return movies
 
-    def delete_movie_by_id(self, movie_id):
+    def delete_movie_by_id(self, user_id, movie_id):
         """
         This method deletes a movie by its id from the database.
         """

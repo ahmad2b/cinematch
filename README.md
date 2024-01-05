@@ -43,6 +43,3 @@ Then, open your web browser and navigate to `http://localhost:8501` to start usi
 This project is licensed under the terms of the MIT license. See LICENSE for additional details.
 
 ---
-
-- `requests` covering [step_01](https://github.com/panaverse/learn-generative-ai/tree/main/08_everything_Is_an_api/01_requests)
-- `pydantic` covering [step_02](https://github.com/panaverse/learn-generative-ai/tree/main/08_everything_Is_an_api/02_pydantic)

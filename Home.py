@@ -32,7 +32,7 @@ sidebar = st.sidebar
 
 # Sidebar for user login
 with sidebar:
-    if st.session_state["username"] != "":
+    if st.session_state["username"] != "" and st.session_state["user"].id is not None:
         st.subheader(f"Welcome, {st.session_state['username']}! :wave:")
         if st.button("Logout"):
             st.session_state["username"] = ""
@@ -89,7 +89,9 @@ with sidebar:
                     if response["status"] == "success":
                         st.session_state["username"] = username
                         st.session_state["user"] = response["user"]
-                        st.success(f"{username} Registerd successfully! 🎉")
+                        st.success(
+                            f"{username} Registerd successfully! \n Please login to continue"
+                        )
                     else:
                         st.error(response["message"])
 

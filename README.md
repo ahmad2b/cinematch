@@ -9,10 +9,28 @@ Cinematch is an interactive movie recommendation system built using Streamlit an
 - **Secrets Management**: Implement secrets management to securely store and access API keys for interacting with the movie database.
 - **Deployment**: Deploy the application on a cloud platform such as Heroku for easy access.
 
+## Tech Stack
+
+This project uses the following technologies:
+
+- **OpenAI API**: Used for AI functionalities.
+- **TMDB API**: An API for fetching movie data.
+
+- **Python**: The main programming language.
+- **Streamlit**: A Python library for creating web interfaces.
+- **Requests and aiohttp**: Python libraries for making HTTP requests.
+- **Pydantic**: A Python library for data validation and settings management.
+- **PostgreSQL (supabase)**: The database system.
+- **SQLAlchemy**: A Python SQL toolkit and ORM library.
+- **pytest**: A testing framework for Python.
+- **Git**: The version control system.
+- **Streamlit Cloud**: The cloud platform for deploying our Streamlit application.
+
 ## Table of Contents
 
 - [Cinematch: AI Movie Recommendation Engine](#cinematch-ai-movie-recommendation-engine)
   - [Features](#features)
+  - [Tech Stack](#tech-stack)
   - [Table of Contents](#table-of-contents)
   - [Installation](#installation)
   - [Usage](#usage)

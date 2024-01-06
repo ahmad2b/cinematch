@@ -8,6 +8,7 @@ from sqlalchemy.exc import IntegrityError
 from sqlalchemy import inspect
 from sqlalchemy import ForeignKey
 from sqlalchemy.orm import relationship
+from pydantic import BaseModel, Field
 
 # Define the base class using declarative_base
 Base = declarative_base()
@@ -29,6 +30,21 @@ def create_database_connection():
         # echo=True,
     )
     return engine
+
+
+class UserBase(BaseModel):
+    """
+    This Pydantic model represents the common attributes of a User.
+    It's used for data validation.
+    """
+
+    username: str = Field(..., example="john_doe", min_length=4, max_length=20)
+    password: str = Field(
+        ...,
+        example="password",
+        min_length=8,
+        max_length=20,
+    )
 
 
 class UserEntity(Base):  # type: ignore
@@ -71,13 +87,15 @@ class UserOperations:
         if not inspect(self.engine).has_table("users"):
             Base.metadata.create_all(self.engine)
 
-    def register_new_user(self, username, password):
+    def register_new_user(self, user: UserBase):
         """
         This method registers a new user in the database.
         """
         session = self.Session()
 
-        existing_user = session.query(UserEntity).filter_by(username=username).first()
+        existing_user = (
+            session.query(UserEntity).filter_by(username=user.username).first()
+        )
 
         # Check if the user already exists
         if existing_user:
@@ -86,15 +104,15 @@ class UserOperations:
 
         # Create a new user
         try:
-            user = UserEntity(username=username)
-            user.set_password(password)
-            session.add(user)
+            new_user = UserEntity(username=user.username)
+            new_user.set_password(user.password)
+            session.add(new_user)
             session.commit()
             session.close()
             return {
                 "status": "success",
                 "message": "User created successfully. Please login to continue.",
-                "user": user,
+                "user": new_user,
             }
         except IntegrityError:
             session.rollback()

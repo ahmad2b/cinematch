@@ -87,7 +87,7 @@ with sidebar:
                     # Create user
                     response = user_operations.register_new_user(username, password)
                     if response["status"] == "success":
-                        st.session_state["username"] = username
+                        # st.session_state["username"] = username
                         # st.session_state["user"] = response["user"]
                         st.success(
                             f"{username} Registerd successfully! \n Please login to continue"
